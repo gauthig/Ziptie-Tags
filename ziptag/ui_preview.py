@@ -3,6 +3,9 @@ from __future__ import annotations
 
 import tkinter as tk
 
+import numpy as np
+from manifold3d import CrossSection, FillRule
+
 from ziptag import constants as c
 from ziptag.fonts import FontFace
 from ziptag.geometry import FitStatus, TagSpec, dimensions, fit_text, place_text
@@ -12,6 +15,12 @@ TEXT = "#ff6600"
 TEXT_BAD = "#e02020"
 SLOT = "#9a9a9a"
 PAD = 14
+
+
+def _signed_area(poly) -> float:
+    """Shoelace area: positive for outer contours, negative for holes (after a boolean union)."""
+    x, y = poly[:, 0], poly[:, 1]
+    return float((x * np.roll(y, -1) - np.roll(x, -1) * y).sum() / 2.0)
 
 
 class TagPreview(tk.Canvas):
@@ -54,9 +63,12 @@ class TagPreview(tk.Canvas):
             return
         fit = fit_text(face, spec)
         colour = TEXT_BAD if fit.status is FitStatus.OVERFLOW else TEXT
-        for poly in place_text(face, spec, fit, dims):
+        # Tk polygons cannot have holes, so draw outer contours in the text colour and the
+        # inner contours (counters of O, P, e ...) in the body colour, largest shapes first.
+        contours = CrossSection(place_text(face, spec, fit, dims), FillRule.NonZero).to_polygons()
+        for poly in sorted(contours, key=lambda p: -abs(_signed_area(p))):
             coords = [v for point in poly for v in px(point[0], point[1])]
-            self.create_polygon(coords, fill=colour, outline=colour)
+            self.create_polygon(coords, fill=colour if _signed_area(poly) > 0 else BODY, outline="")
         # the printed text is clipped this far from the edge: show that limit while overflowing
         if fit.status is FitStatus.OVERFLOW:
             cx0, cy0 = px(c.ZIP_SECTION + c.WALL, dims.width - c.WALL)
