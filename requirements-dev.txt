@@ -1,0 +1,6 @@
+-r requirements.txt
+pytest>=8
+ruff>=0.5
+pyinstaller>=6
+pillow>=10        # only for UI screenshots in docs/
+brotli            # fontTools optional, used by tools/make_fonts.py

@@ -1,0 +1,18 @@
+[project]
+name = "ziptag"
+dynamic = ["version"]
+description = "Generate zip-tie cable tag 3MF files for Bambu Lab printers and other slicers"
+requires-python = ">=3.11"
+dependencies = ["manifold3d>=3.0", "numpy>=1.26", "fonttools>=4.50"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "N"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::pytest.PytestRemovedIn10Warning"]

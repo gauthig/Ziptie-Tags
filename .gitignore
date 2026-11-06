@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Build output
+build/
+dist/
+*.spec.bak
+
+# Generated / test output (never commit slicer output or personal projects)
+*.3mf
+!tests/data/*.3mf
+*.gcode
+out/
+tmp/
+zt_*/
+
+# Personal / machine-specific Claude Code files (shared project instructions live in CLAUDE.md)
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/projects/
+.claude/memory/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local secrets and environment
+.env
+.env.*
+*.pem
+*.key
