@@ -3,7 +3,29 @@
 Windows desktop app that generates **zip-tie cable tag 3MF files**: a black tag body with the text
 inlaid flush in orange, ready for Bambu Studio (or any slicer via a plain 3MF).
 
-![screenshot](docs/screenshot.png)
+![Ziptie Tags window](docs/screenshot.png)
+
+## Get it
+
+**Option 1 - download the .exe (no Python needed):** grab `ZiptieTags.exe` from the
+[latest release](https://github.com/gauthig/Ziptie-Tags/releases/latest) and double-click it.
+
+**Option 2 - run with Python:**
+
+```powershell
+git clone https://github.com/gauthig/Ziptie-Tags.git
+cd Ziptie-Tags
+python -m pip install -r requirements.txt
+python ziptie_tags.py
+```
+
+## What you get in Bambu Studio
+
+**Generate 3MF** writes a Bambu Studio project. When you open it, Bambu Studio shows **one or more plates**,
+as many as needed for the number and size of your tags. Tags are arranged automatically, with room left for the
+prime tower. Body is filament 1 (black), text is filament 2 (orange).
+
+![Tags opened in Bambu Studio](docs/bambu_studio_plate.png)
 
 ## Features
 
@@ -21,13 +43,6 @@ inlaid flush in orange, ready for Bambu Studio (or any slicer via a plain 3MF).
   standard Save As dialog
 
 Nozzle diameter defaults to **0.4 mm**. Layer plan: 0.20 mm body, top 0.64 mm (the text) at 0.08 mm.
-
-## Run from source
-
-```powershell
-python -m pip install -r requirements.txt
-python ziptie_tags.py
-```
 
 ## Build the .exe
 
